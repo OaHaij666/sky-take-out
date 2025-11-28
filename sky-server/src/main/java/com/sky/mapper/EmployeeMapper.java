@@ -1,0 +1,52 @@
+package com.sky.mapper;
+
+import com.sky.dto.EmployeePageQueryDTO;
+import com.sky.entity.Employee;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+import com.github.pagehelper.Page;
+
+
+@Mapper
+public interface EmployeeMapper {
+
+    /**
+     * 根据用户名查询员工
+     * @param username
+     * @return
+     */
+    @Select("select * from employee where username = #{username}")
+    Employee getByUsername(String username);
+
+    /**
+     * 插入员工
+     * @param employee
+     */
+    void insert(Employee employee);
+
+    /**
+     * 员工分页查询
+     * @param employeePageQueryDTO
+     * @return
+     */
+    Page<Employee> pageQuery(EmployeePageQueryDTO employeePageQueryDTO);
+
+    /**
+     * 修改状态
+     */
+    void updatestatus(Employee employee);
+    
+    /**
+     * 根据ID查询员工
+     * @param id
+     * @return
+     */
+    @Select("select * from employee where id = #{id}")
+    Employee getById(Long id);
+    
+    /**
+     * 修改密码
+     * @param employee
+     */
+    void updatePassword(Employee employee);
+}
