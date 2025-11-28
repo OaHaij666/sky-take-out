@@ -37,3 +37,16 @@ sky:
     admin-ttl: 7200000
     # 设置前端传递过来的令牌名称
     admin-token-name: token
+  alioss:
+    # 阿里云OSS服务地址
+    endpoint: oss-cn-hangzhou.aliyuncs.com
+    # 阿里云OSS访问密钥ID
+    access-key-id: your-access-key-id
+    # 阿里云OSS访问密钥密码
+    access-key-secret: your-access-key-secret
+    # 阿里云OSS存储桶名称
+    bucket-name: your-bucket-name
+  file:
+    # 本地文件上传路径
+    upload:
+      path: E:/sky-take-out/upload/

@@ -2,8 +2,11 @@ package com.sky.config;
 
 import com.sky.interceptor.JwtTokenAdminInterceptor;
 import com.sky.json.JacksonObjectMapper;
+import com.sky.properties.AliOssProperties;
+import com.sky.utils.AliOssUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -69,6 +72,10 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/doc.html").addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+        
+        // 添加本地文件上传路径的静态资源映射
+        registry.addResourceHandler("/common/upload/**")
+                .addResourceLocations("file:E:/sky-take-out/upload/");
     }
 
     @Override
@@ -79,5 +86,20 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
         converter.setObjectMapper(new JacksonObjectMapper());
         // 将上面的消息转换器对象追加到mvc框架的转换器集合中
         converters.add(0, converter);
+    }
+
+    /**
+     * 配置阿里云OSS工具类
+     * @param aliOssProperties
+     * @return
+     */
+    @Bean
+    @ConditionalOnMissingBean
+    public AliOssUtil aliOssUtil(AliOssProperties aliOssProperties) {
+        log.info("开始创建阿里云OSS工具类对象：{}", aliOssProperties);
+        return new AliOssUtil(aliOssProperties.getEndpoint(),
+                aliOssProperties.getAccessKeyId(),
+                aliOssProperties.getAccessKeySecret(),
+                aliOssProperties.getBucketName());
     }
 }

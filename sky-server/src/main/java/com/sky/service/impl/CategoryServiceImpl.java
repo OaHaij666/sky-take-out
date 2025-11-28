@@ -2,6 +2,7 @@ package com.sky.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.Page;
+import com.sky.annotation.AutoFill;
 import com.sky.constant.MessageConstant;
 import com.sky.constant.StatusConstant;
 import com.sky.context.BaseContext;
@@ -18,7 +19,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -36,18 +36,13 @@ public class CategoryServiceImpl implements CategoryService {
      * @param categoryDTO
      */
     @Override
+    @AutoFill(AutoFill.OperationType.INSERT)
     public void save(CategoryDTO categoryDTO) {
         Category category = new Category();
         BeanUtils.copyProperties(categoryDTO, category);
         
         // 设置默认状态为启用
         category.setStatus(StatusConstant.ENABLE);
-        
-        // 设置创建时间、更新时间、创建人、更新人
-        category.setCreateTime(LocalDateTime.now());
-        category.setUpdateTime(LocalDateTime.now());
-        category.setCreateUser(BaseContext.getCurrentId());
-        category.setUpdateUser(BaseContext.getCurrentId());
         
         categoryMapper.insert(category);
     }
@@ -96,13 +91,10 @@ public class CategoryServiceImpl implements CategoryService {
      * @param categoryDTO
      */
     @Override
+    @AutoFill(AutoFill.OperationType.UPDATE)
     public void update(CategoryDTO categoryDTO) {
         Category category = new Category();
         BeanUtils.copyProperties(categoryDTO, category);
-        
-        // 设置更新时间和更新人
-        category.setUpdateTime(LocalDateTime.now());
-        category.setUpdateUser(BaseContext.getCurrentId());
         
         categoryMapper.update(category);
     }
@@ -113,12 +105,11 @@ public class CategoryServiceImpl implements CategoryService {
      * @param id
      */
     @Override
+    @AutoFill(AutoFill.OperationType.UPDATE)
     public void updateStatus(int status, Long id) {
         Category category = new Category();
         category.setId(id);
         category.setStatus(status);
-        category.setUpdateTime(LocalDateTime.now());
-        category.setUpdateUser(BaseContext.getCurrentId());
         
         categoryMapper.update(category);
     }

@@ -5,6 +5,7 @@ import com.github.pagehelper.Page;
 import com.sky.constant.MessageConstant;
 import com.sky.constant.PasswordConstant;
 import com.sky.constant.StatusConstant;
+import com.sky.annotation.AutoFill;
 import com.sky.context.BaseContext;
 import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeEditPasswordDTO;
@@ -19,8 +20,6 @@ import com.sky.mapper.EmployeeMapper;
 import com.sky.result.PageResult;
 import com.sky.service.EmployeeService;
 import com.sky.utils.PasswordEncoder;
-
-import java.time.LocalDateTime;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +69,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * 新增员工
      * @param employee
      */
+    @AutoFill(AutoFill.OperationType.INSERT)
     public void save(EmployeeDTO employeeDTO) {
         // 检查用户名是否已存在
         Employee existingEmployee = employeeMapper.getByUsername(employeeDTO.getUsername());
@@ -83,12 +83,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         employee.setPassword(PasswordEncoder.encode(PasswordConstant.DEFAULT_PASSWORD));
         employee.setStatus(StatusConstant.ENABLE);
-
-        employee.setCreateTime(LocalDateTime.now());
-        employee.setUpdateTime(LocalDateTime.now());
-
-        employee.setCreateUser(BaseContext.getCurrentId());
-        employee.setUpdateUser(BaseContext.getCurrentId());
         
         employeeMapper.insert(employee);
     }
@@ -114,12 +108,11 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @param status
      * @param id
      */
+    @AutoFill(AutoFill.OperationType.UPDATE)
     public void updateStatus(int status, Long id) {
         Employee employee = new Employee();
         employee.setId(id);
         employee.setStatus(status);
-        employee.setUpdateTime(LocalDateTime.now());
-        employee.setUpdateUser(BaseContext.getCurrentId());
         employeeMapper.updatestatus(employee);
     }
     
@@ -138,6 +131,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @param employeeEditPasswordDTO
      */
     @Override
+    @AutoFill(AutoFill.OperationType.UPDATE)
     public void editPassword(EmployeeEditPasswordDTO employeeEditPasswordDTO) {
         Long empId = employeeEditPasswordDTO.getEmpId();
         String oldPassword = employeeEditPasswordDTO.getOldPassword();
@@ -158,8 +152,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee updateEmployee = new Employee();
         updateEmployee.setId(empId);
         updateEmployee.setPassword(PasswordEncoder.encode(newPassword));
-        updateEmployee.setUpdateTime(LocalDateTime.now());
-        updateEmployee.setUpdateUser(BaseContext.getCurrentId());
         
         employeeMapper.updatePassword(updateEmployee);
     }
