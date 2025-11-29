@@ -1,11 +1,9 @@
 package com.sky.controller.admin;
 
 import com.sky.result.Result;
-// 注释掉阿里云OSS相关导入
-// import com.sky.utils.AliOssUtil;
+
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,10 +22,6 @@ import java.util.UUID;
 @RequestMapping("/admin/common")
 @Slf4j
 public class CommonController {
-
-    // 注释掉阿里云OSS工具类注入
-    // @Autowired
-    // private AliOssUtil aliOssUtil;
     
     // 本地文件存储路径配置
     @Value("${sky.file.upload.path}")

@@ -5,7 +5,6 @@ import com.github.pagehelper.Page;
 import com.sky.annotation.AutoFill;
 import com.sky.constant.MessageConstant;
 import com.sky.constant.StatusConstant;
-import com.sky.context.BaseContext;
 import com.sky.dto.CategoryDTO;
 import com.sky.dto.CategoryPageQueryDTO;
 import com.sky.entity.Category;
