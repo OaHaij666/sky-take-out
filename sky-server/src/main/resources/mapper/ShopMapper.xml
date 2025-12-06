@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sky.mapper.ShopMapper">
+
+    <!-- 初始化店铺信息 -->
+    <insert id="insert" parameterType="com.sky.entity.Shop" useGeneratedKeys="true" keyProperty="id">
+        insert into shop (name, status, create_time, update_time, create_user, update_user)
+        values (#{name}, #{status}, #{createTime}, #{updateTime}, #{createUser}, #{updateUser})
+    </insert>
+</mapper>
